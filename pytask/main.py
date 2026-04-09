@@ -24,12 +24,12 @@ def main(ctx: typer.Context):
         table.add_column("comando", style="cyan")
         table.add_column("descrição")
 
-        table.add_row("task add", "Adiciona uma nova tarefa")
+        table.add_row("task add <nome da tarefa>", "Adiciona uma nova tarefa")
         table.add_row("task list", "Lista todas as tarefas")
-        table.add_row("task view", "Mostra uma tarefa específica")
-        table.add_row("task delete", "Deleta uma tarefa")
-        table.add_row("task done", "Marca uma tarefa como concluída")
-        table.add_row("project add", "Adiciona um novo projeto")
+        table.add_row("task view <id da tarefa>", "Mostra uma tarefa específica")
+        table.add_row("task delete <id da tarefa>", "Deleta uma tarefa")
+        table.add_row("task done <id da tarefa>", "Marca uma tarefa como concluída")
+        table.add_row("project add <nome do projeto>", "Adiciona um novo projeto")
         table.add_row("project list", "Lista todos os projetos")
 
         console.print(table)
