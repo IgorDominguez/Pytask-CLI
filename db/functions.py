@@ -62,7 +62,26 @@ def list_unique_task(task_id: int):
     finally:
         session.close()
 
-def add_project(name: str, dscpt: Optional[str] = None):
+def delete_task(task_id: int):
+    session = Session()
+
+    try:
+        task = session.query(Task).filter_by(task_id=task_id).first()
+        
+        if task:
+            session.delete(task)
+            session.commit()
+            return "deletado"
+        else:
+            return "error"
+
+    except Exception as e:
+        session.rollback()
+        return e
+    finally:
+        session.close()
+
+def add_project_db(name: str, dscpt: Optional[str] = None):
     session = Session()
 
     try:
@@ -80,21 +99,18 @@ def list_project_unique(project_id: int):
     session = Session()
 
     try:
-        tasks = []
         project = session.query(Project).filter_by(project_id=project_id).first()
 
         if not project:
             return None
 
-        for tarefa in project.tasks:
-            tasks.append({
-                "project_id": tarefa.project_id,
-                "task_id": tarefa.task_id,
-                "titulo": tarefa.titulo,
-                "conteudo": tarefa.conteudo
-            })
+        resultado = {
+            "project_id": project.project_id,
+            "titulo": project.name,
+            "conteudo": project.description
+        }
         
-        return tasks
+        return resultado
     
     except Exception as e:
         session.rollback()
@@ -102,19 +118,50 @@ def list_project_unique(project_id: int):
     finally:
         session.close()
 
-def delete_task(task_id: int):
+def list_projects():
     session = Session()
 
     try:
-        task = session.query(Task).filter_by(task_id=task_id).first()
-        
-        if task:
-            session.delete(task)
-            session.commit()
-            return "deletado"
-        else:
-            return "error"
+        projects = []
+        project = session.query(Project).all()
 
+        if not project:
+            return None
+
+        for prj in project:
+            projects.append({
+                "project_id": prj.project_id,
+                "titulo": prj.name,
+                "conteudo": prj.description
+            })
+        
+        return projects
+    
+    except Exception as e:
+        session.rollback()
+        return e
+    finally:
+        session.close()
+
+def list_tasks_project(project_id: int):
+    session = Session()
+
+    try:
+        project = session.query(Project).filter_by(project_id=project_id).first()
+
+        if not project:
+            return None
+
+        tasks = []
+        for task in project.tasks:
+            tasks.append({
+                "task_id": task.task_id,
+                "titulo": task.titulo,
+                "conteudo": task.conteudo
+            })
+        
+        return tasks
+    
     except Exception as e:
         session.rollback()
         return e
