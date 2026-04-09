@@ -3,7 +3,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.prompt import Prompt
-from db.functions import add_task_db, list_tasks, list_unique_task
+from db.functions import add_task_db, list_tasks, list_unique_task, delete_task, add_project
 import pyfiglet
 
 app = typer.Typer()
@@ -12,6 +12,7 @@ console = Console()
 task_app = typer.Typer()
 app.add_typer(task_app, name="task")
 
+# pytask
 @app.callback(invoke_without_command=True)
 def main(ctx: typer.Context):
     if ctx.invoked_subcommand is None:
@@ -41,8 +42,15 @@ def add_task():
 
     title_task = Prompt.ask("Título da tarefa")
     content_task = Prompt.ask("Descrição (opcional)", default="", show_default=False)
+    project_task = Prompt.ask("ID do projeto (opcional)", default="", show_default=False)
 
-    add_task_db(title_task, content_task)
+    project_id = int(project_task) if project_task else None
+
+    result = add_task_db(title_task, content_task, project_id)
+
+    if result is not None:
+        console.print(Panel(f"{result}", style="bold red"))
+        return
 
     console.print(Panel(f"✓ Tarefa [bold]{title_task}[/bold] adicionada com sucesso!", style="bold blue"))
 
@@ -85,6 +93,21 @@ def add_task(id: int):
         )
 
         console.print(table)
+    except:
+        console.print(Panel("Esta tarefa ainda não foi criada :(", style="bold red"))
+
+@task_app.command("delete")
+def add_task(id: int):
+    console.print(Panel("Excluir uma tarefa específica", style="bold blue"))
+
+    task = delete_task(id)
+
+    try:
+        if task == "deletado":
+            console.print(Panel(f"✓ Tarefa [bold]{id}[/bold] Foi excluída com sucesso!", style="bold green"))
+        elif task == "error":
+            console.print(Panel(f"Tarefa [bold]{id}[/bold] não existe :(", style="bold red"))
+        
     except:
         console.print(Panel("Esta tarefa ainda não foi criada :(", style="bold red"))
 
