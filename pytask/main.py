@@ -3,7 +3,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.prompt import Prompt
-from db.functions import add_task_db, list_tasks, list_unique_task, delete_task, add_project_db, list_projects, list_project_unique, list_tasks_project
+from db.functions import add_task_db, list_tasks, list_unique_task, delete_task, add_project_db, list_projects, list_project_unique, list_tasks_project, create_db
 import pyfiglet
 
 app = typer.Typer()
@@ -14,6 +14,8 @@ app.add_typer(task_app, name="task")
 
 project_app = typer.Typer()
 app.add_typer(project_app, name="project")
+
+create_db()
 
 # pytask
 @app.callback(invoke_without_command=True)
