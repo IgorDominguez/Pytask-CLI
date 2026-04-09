@@ -4,12 +4,35 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.prompt import Prompt
 from db.functions import add_task_db, list_tasks, list_unique_task
+import pyfiglet
 
 app = typer.Typer()
 console = Console()
 
 task_app = typer.Typer()
 app.add_typer(task_app, name="task")
+
+@app.callback(invoke_without_command=True)
+def main(ctx: typer.Context):
+    if ctx.invoked_subcommand is None:
+        title = pyfiglet.figlet_format("Pytask CLI", font="small")
+        console.print(f"[bold blue]{title}[/bold blue]")
+        console.print("[dim]v0.1.0[/dim]")
+        console.print("[dim]by Igor Dominguez :)[/dim]\n")
+
+        table = Table(show_header=True, header_style="bold blue", border_style="blue")
+        table.add_column("comando", style="cyan")
+        table.add_column("descrição")
+
+        table.add_row("task add", "Adiciona uma nova tarefa")
+        table.add_row("task list", "Lista todas as tarefas")
+        table.add_row("task view", "Mostra uma tarefa específica")
+        table.add_row("task delete", "Deleta uma tarefa")
+        table.add_row("task done", "Marca uma tarefa como concluída")
+        table.add_row("project add", "Adiciona um novo projeto")
+        table.add_row("project list", "Lista todos os projetos")
+
+        console.print(table)
 
 # ... task
 @task_app.command("add")
