@@ -167,3 +167,22 @@ def list_tasks_project(project_id: int):
         return e
     finally:
         session.close()
+
+def task_done(task_id: int):
+    session = Session()
+
+    try:
+        task = session.query(Task).filter_by(task_id=task_id).first()
+
+        if not task:
+            return f"error"
+
+        task.finalizada = True
+        session.commit()
+
+    except Exception as e:
+        session.rollback()
+        return f"Erro! {e}"
+
+    finally:
+        session.close()

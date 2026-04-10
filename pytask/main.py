@@ -3,7 +3,7 @@ from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.prompt import Prompt
-from db.functions import add_task_db, list_tasks, list_unique_task, delete_task, add_project_db, list_projects, list_project_unique, list_tasks_project, create_db
+from db.functions import add_task_db, list_tasks, list_unique_task, delete_task, add_project_db, list_projects, list_project_unique, list_tasks_project, create_db, task_done
 import pyfiglet
 
 app = typer.Typer()
@@ -113,6 +113,21 @@ def add_task(id: int):
             console.print(Panel(f"✓ Tarefa [bold]{id}[/bold] Foi excluída com sucesso!", style="bold green"))
         elif task == "error":
             console.print(Panel(f"Tarefa [bold]{id}[/bold] não existe :(", style="bold red"))
+        
+    except:
+        console.print(Panel("Esta tarefa ainda não foi criada :(", style="bold red"))
+
+@task_app.command("done")
+def add_task(id: int):
+    console.print(Panel("Concluir uma tarefa específica", style="bold blue"))
+
+    task = task_done(id)
+
+    try:
+        if task == "error":
+            console.print(Panel("Esta tarefa ainda não foi criada :(", style="bold red"))
+        else:
+            console.print(Panel(f"✓ Tarefa [bold]{id}[/bold] foi marcada como concluída!", style="bold green"))
         
     except:
         console.print(Panel("Esta tarefa ainda não foi criada :(", style="bold red"))
