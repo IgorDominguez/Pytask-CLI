@@ -35,7 +35,7 @@ def main(ctx: typer.Context):
         table.add_row("task view <id da tarefa>", "Mostra uma tarefa específica")
         table.add_row("task delete <id da tarefa>", "Deleta uma tarefa")
         table.add_row("task done <id da tarefa>", "Marca uma tarefa como concluída")
-        table.add_row("project create <nome do projeto>", "Adiciona um novo projeto")
+        table.add_row("project create", "Adiciona um novo projeto")
         table.add_row("project list", "Lista todos os projetos")
         table.add_row("project view <id do projeto>", "Lista as tarefas de um projeto")
 
