@@ -27,6 +27,8 @@ source .venv/bin/activate  # Linux/macOS
 Instale as dependências e o CLI:
 
 ```bash
+uv pip install -r requirements.txt
+
 uv pip install -e .
 ```
 
