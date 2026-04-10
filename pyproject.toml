@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pytask-cli"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = ["typer", "rich", "sqlalchemy"]
+
+[project.scripts]
+pytask = "pytask.main:app"
+
+[tool.setuptools.packages.find]
+include = ["pytask*", "db*"]
