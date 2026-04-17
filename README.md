@@ -17,7 +17,7 @@ cd Pytask-CLI
 Crie e ative um ambiente virtual:
 
 ```bash
-uv venv
+python -m venv .venv
 
 .venv\Scripts\activate  # Windows
 
@@ -27,9 +27,9 @@ source .venv/bin/activate  # Linux/macOS
 Instale as dependências e o CLI:
 
 ```bash
-uv pip install -r requirements.txt
+pip install -r requirements.txt
 
-uv pip install -e .
+pip install -e .
 ```
 
 Após a instalação, o comando `pytask` estará disponível globalmente no seu terminal.
